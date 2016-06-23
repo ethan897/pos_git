@@ -1,0 +1,130 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width"/>
+		<meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+		<title>WinA</title>
+		<link rel="stylesheet" type="text/css" href="css/api.css" />
+		<link rel="stylesheet" type="text/css" href="css/box.css" />
+		<link rel="stylesheet" type="text/css" href="css/ui-dialog.css" />
+		<script type="text/javascript" src="script/jquery-3.0.0.min.js"></script>
+		<script type="text/javascript" src="script/dialog-min.js"></script>
+		<script type="text/javascript" src="script/public.js"></script>
+		<style>
+			p {
+				color: #999;
+				padding: 5px;
+			}
+		</style>
+		<script type="text/javascript">
+			function alertDialog() {
+				var elem = document.getElementById('Dialog_RecordContent');
+				var d = dialog({
+					title : '交班明细',
+					content : elem,
+					width : 300,
+					height : 200
+				});
+				d.showModal();
+			};
+			var uzmoduledemo = null;
+			var scrollPicture = null;
+			apiready = function() {
+				uzmoduledemo = api.require('moduleDemo');
+				scrollPicture = api.require('scrollPicture');
+			}
+			function print() {
+				var initBt = api.require('IBlueToothPrinter');
+				var param = {
+					demo : {
+						"OrderID":"23444",
+						"OrderTime":"2016:1012",
+						"TotalPrice":"123",
+						"PayMoney":"0",
+						"OrderItemsJson":"[{\"Dish_Name\":\"豆角红柿肉饺子\",\"Dish_Price\":\"10\",\"Dish_Number\":\"1\",\"remark\":\"少放辣子\",\"account\":\"8.5\"},{\"Dish_Name\":\"豆角猪肉饺子\",\"Dish_Price\":\"10\",\"Dish_Number\":\"1\",\"remark\":\"\",\"account\":\"10\"},{\"Dish_Name\":\"豆角猪肉饺子\",\"Dish_Price\":\"10\",\"Dish_Number\":\"1\",\"remark\":\"\",\"account\":\"10\"}]"
+					}
+				
+			};
+			initBt.startPrint(param);
+			}
+			
+			function setPinterNum() {
+				var seting= api.require('IBlueToothPrinter');
+				var param = {
+				paramInt : 2
+			};
+			seting.setPrinterNum(param);
+			}
+			function state(){
+			var connetstate = api.require('IBlueToothPrinter');
+			connetstate.stateconnect(
+			function(ret){
+			alert(JSON.stringify(ret));
+			}
+			);
+			}
+			function bondBluetoothDevive() {
+				var bonder = api.require('IBlueToothPrinter');
+				var param = {
+					name : {
+						name : 'vivo Xplay5A'
+					}
+				};
+				bonder.bondBluetooth(param);
+			}
+	function addView(){
+	var add = api.require('IBlueToothPrinter');
+			var param = {x:20,y:20,w:200,h:200};
+	        add.addView(param);
+		}
+
+			function getBluetoothDevicesName() {
+				var devices = api.require('IBlueToothPrinter');
+				devices.showDevicename(function(ret) {
+					$.each(JSON.stringify(ret), function(index, item) {
+						var btn = document.createElement("input");
+						btn.nodeType = "button";
+						btn.value = index;
+						btn.name = item;
+						$('#Dialog_RecordContent').appendChild(btn);
+					});
+					alertDialog();
+				});
+			};
+		</script>
+	</head>
+	<body>
+		<div id="wrap">
+			<div id="main">
+				<br>
+				<div class="clickbtn" tapmode="active" onclick="print()" >
+					点击打印
+				</div>
+				<div class="clickbtn" tapmode="active" onclick="setPinterNum()" >
+					设置打印机数量
+				</div>
+				<div class="clickbtn" tapmode="active" onclick="getBluetoothDevicesName()" >
+					查看周边蓝牙设备
+				</div>
+				<div class="clickbtn" tapmode="active" onclick="bondBluetoothDevive()" >
+					点击绑定
+				</div>
+				<div class="clickbtn" tapmode="active" onclick="alertDialog();" >
+					点击弹框
+				</div>
+				<div class="clickbtn" tapmode="active" onclick="addView()" >
+					添加view
+				</div>
+				<div class="clickbtn" tapmode="active" onclick="state()" >
+					连接状态
+				</div>
+				<br>
+			</div>
+		</div>
+		/APICloudSDKgai2/src/com/apicloud/moduleprint/Print.java
+		<div id="Dialog_RecordContent" style='display:none;'>
+			<ul id="dialog_ul"></ul>
+		</div>
+	</body>
+</html>

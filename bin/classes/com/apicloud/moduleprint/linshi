@@ -1,0 +1,52 @@
+public void jsmethod_addView(UZModuleContext moduleContext) {
+		int x = moduleContext.optInt("x");
+		int y = moduleContext.optInt("y");
+		int w = moduleContext.optInt("w");
+		int h = moduleContext.optInt("h");
+		if (w == 0) {
+			w = ViewGroup.LayoutParams.MATCH_PARENT;
+		}
+		if (h == 0) {
+			h = ViewGroup.LayoutParams.MATCH_PARENT;
+		}
+		if (null == mMyTextView) {
+			mMyTextView = new MyTextView(mContext);
+		}
+		int FROM_TYPE = Animation.RELATIVE_TO_PARENT;
+		Animation anim = new TranslateAnimation(FROM_TYPE, 1.0f, FROM_TYPE, 0.0f, FROM_TYPE, 0.0f, FROM_TYPE, 0.0f);
+		anim.setDuration(500);
+		mMyTextView.setAnimation(anim);
+		RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams(w, h);
+		rlp.leftMargin = x;
+		rlp.topMargin = y;
+		insertViewToCurWindow(mMyTextView, rlp);
+	}
+
+	class MyTextView extends TextView {
+
+		public MyTextView(Context context) {
+			super(context);
+			setBackgroundColor(0xFFF0CFD0);
+			setText("我要吃饺子");
+			setTextColor(0xFF000000);
+			setGravity(Gravity.CENTER);
+		}
+	}
+
+	// class MyLayout extends LinearLayout{
+	//
+	// public MyLayout(Context context) {
+	// super(context);
+	// mContext.addContentView(R.id.s, params)
+	// // TODO Auto-generated constructor stub
+	// }
+	//
+	// private LinearLayout layout;
+	// LayoutInflater
+	// //private TextView textView;
+	//
+
+	// }
+	public void jsmethod_setChat() {
+
+	}
